@@ -74,3 +74,7 @@ INSERT INTO Trainings (
     training_icon) VALUES (
         'Python programming with Price', '2023-07-15', '2023-10-15', '8:00', '17:00', 'polish', 'Learn python programming best techniques', 'advanced', 'Data science', 'remote', 1, './icons/python-techniques.jpg'
     );
+
+--@block
+
+INSERT INTO User_trainings(trainer_id, training_id) VALUES (2, 1) 
