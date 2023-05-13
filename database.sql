@@ -34,3 +34,10 @@ CREATE TABLE User_trainings(
     FOREIGN KEY (trainer_id) REFERENCES Users(id),
     FOREIGN KEY (training_id) REFERENCES Trainings(id)
 );
+
+--@block
+INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('Captain', 'Price', 'captain123@interia.eu', 'encrypted12345%');
+
+INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('Ghost', 'Riley', 'ghost123@wp.pl', 'IlovePancakes&');
+
+INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('James', 'Cook', 'Cookaustralia1770@gmail.com', 'SpeedMyBoat997')
