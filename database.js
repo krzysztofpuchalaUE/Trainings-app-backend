@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+import mysql from "mysql2";
+
 dotenv.config();
 
 export const connectionPool = mysql
@@ -9,3 +11,10 @@ export const connectionPool = mysql
     database: process.env.MYSQL_DATABASE,
   })
   .promise();
+
+export const getAllTrainings = async () => {
+  const [result] = await connectionPool.query("SELECT * FROM Trainings");
+  return result;
+};
+
+getAllTrainings();
