@@ -24,3 +24,6 @@ CREATE TABLE Trainings(
 );
 
 --@block
+ALTER TABLE Trainings ADD COLUMN training_icon TEXT
+
+--@block
