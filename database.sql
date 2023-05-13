@@ -41,3 +41,36 @@ INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) V
 INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('Ghost', 'Riley', 'ghost123@wp.pl', 'IlovePancakes&');
 
 INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('James', 'Cook', 'Cookaustralia1770@gmail.com', 'SpeedMyBoat997')
+
+--@block
+INSERT INTO Trainings (  
+    training_title,
+    training_start_date,
+    training_end_date,
+    training_start_time,
+    training_end_time,
+    training_language,
+    training_description,
+    training_level,
+    training_category,
+    training_location,
+    trainer_id,
+    training_icon) VALUES (
+        'Chess short course', '2023-06-1', '2023-07-01', '12:00', '16:00', 'english', 'This fantastic chess course teach you the basics of playing chess', 'beginner', 'popular', 'remote', 2, './icons/chess.jpg'
+    );
+
+    INSERT INTO Trainings (
+    training_title,
+    training_start_date,
+    training_end_date,
+    training_start_time,
+    training_end_time,
+    training_language,
+    training_description,
+    training_level,
+    training_category,
+    training_location,
+    trainer_id,
+    training_icon) VALUES (
+        'Python programming with Price', '2023-07-15', '2023-10-15', '8:00', '17:00', 'polish', 'Learn python programming best techniques', 'advanced', 'Data science', 'remote', 1, './icons/python-techniques.jpg'
+    );
