@@ -27,3 +27,10 @@ CREATE TABLE Trainings(
 ALTER TABLE Trainings ADD COLUMN training_icon TEXT
 
 --@block
+CREATE TABLE User_trainings(
+    id INT auto_increment PRIMARY KEY, 
+    trainer_id INT NOT NULL,
+    training_id INT NOT NULL,
+    FOREIGN KEY (trainer_id) REFERENCES Users(id),
+    FOREIGN KEY (training_id) REFERENCES Trainings(id)
+);
