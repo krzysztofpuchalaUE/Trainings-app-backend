@@ -20,3 +20,8 @@ router
     const deleteTraining = await queries.unregisterFromTraining(trainingId);
     res.send(deleteTraining);
   });
+
+router.route("/user-trainings").get(async (req, res) => {
+  const myTrainings = await queries.getAllUserTrainings();
+  res.json(myTrainings);
+});
