@@ -46,3 +46,49 @@ export const getAllUserTrainings = async () => {
   );
   return result;
 };
+
+export const createTraining = async (
+  title,
+  category,
+  startDate,
+  endDate,
+  startTime,
+  endTime,
+  language,
+  location,
+  description,
+  level,
+  trainer_id,
+  iconUrl
+) => {
+  const [result] = await connectionPool.query(
+    `INSERT INTO Trainings (
+    training_title,
+    training_start_date,
+    training_end_date,
+    training_start_time,
+    training_end_time,
+    training_language,
+    training_description,
+    training_level,
+    training_category,
+    training_location,
+    trainer_id,
+    training_icon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+    [
+      title,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      language,
+      description,
+      level,
+      category,
+      location,
+      trainer_id,
+      iconUrl,
+    ]
+  );
+  return result;
+};
