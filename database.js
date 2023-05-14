@@ -17,4 +17,13 @@ export const getAllTrainings = async () => {
   return result;
 };
 
-getAllTrainings();
+export const registerOnTraining = async (trainingId, trainerId) => {
+  const [result] = await connectionPool.query(
+    `INSERT INTO User_trainings (
+    trainer_id,
+    training_id,
+  ) VALUES (?,?)`,
+    [trainerId, trainingId]
+  );
+  return result;
+};
