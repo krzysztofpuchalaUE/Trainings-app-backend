@@ -18,7 +18,6 @@ export const getAllTrainings = async () => {
 };
 
 export const registerOnTraining = async (trainingId, trainerId) => {
-  console.log(trainingId, trainerId);
   const [result] = await connectionPool.query(
     `INSERT INTO User_trainings (trainer_id, training_id) VALUES (?,?)`,
     [trainerId, trainingId]
