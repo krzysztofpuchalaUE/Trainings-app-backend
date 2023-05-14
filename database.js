@@ -27,3 +27,11 @@ export const registerOnTraining = async (trainingId, trainerId) => {
   );
   return result;
 };
+
+export const unregisterFromTraining = async (trainingId) => {
+  const [result] = await connectionPool.query(
+    "DELETE FROM User_trainings WHERE User_trainings.training_id = ?",
+    [trainingId]
+  );
+  return result;
+};
