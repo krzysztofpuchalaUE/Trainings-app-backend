@@ -9,5 +9,4 @@ app.use(express.json());
 const trainingsRouter = allTrainingsRouter;
 
 app.use(trainingsRouter);
-
 app.listen(8800);
