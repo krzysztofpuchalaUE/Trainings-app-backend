@@ -7,7 +7,8 @@ router
   .route("/trainings")
   .get(async (req, res) => {
     const trainings = await queries.getAllTrainings();
-    return res.json(trainings);
+    const isRegistered = await queries.getIsRegistered();
+    return res.json({ trainings, isRegistered });
   })
   .post(async (req, res) => {
     const { trainingId, trainerId } = req.body;
