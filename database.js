@@ -35,3 +35,10 @@ export const unregisterFromTraining = async (trainingId) => {
   );
   return result;
 };
+
+export const getIsRegistered = async () => {
+  const [result] = await connectionPool.query(
+    "SELECT training_id FROM User_trainings INNER JOIN Trainings ON User_trainings.training_id = Trainings.id AND User_trainings.trainer_id = Trainings.trainer_id WHERE User_trainings.training_id = Trainings.id"
+  );
+  return result;
+};
