@@ -92,3 +92,40 @@ export const createTraining = async (
   );
   return result;
 };
+
+export const updateTraining = async (
+  id,
+  title,
+  startDate,
+  endDate,
+  startTime,
+  endTime,
+  language,
+  description,
+  level,
+  category,
+  location,
+  trainer_id,
+  iconUrl
+) => {
+  const [result] = await connectionPool.query(
+    `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?,trainer_id = ?,training_icon = '?'
+    WHERE id = ?`,
+    [
+      title,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      language,
+      description,
+      level,
+      category,
+      location,
+      trainer_id,
+      iconUrl,
+      id,
+    ]
+  );
+  return result;
+};
