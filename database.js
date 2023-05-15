@@ -47,6 +47,14 @@ export const getAllUserTrainings = async () => {
   return result;
 };
 
+export const getTrainingByID = async (id) => {
+  const [result] = await connectionPool.query(
+    "SELECT * FROM Trainings WHERE id = ?",
+    [id]
+  );
+  return result[0];
+};
+
 export const createTraining = async (
   title,
   category,
