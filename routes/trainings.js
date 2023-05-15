@@ -95,7 +95,7 @@ router
     return res.send(updatedTraining);
   })
   .get(async (req, res) => {
-    const id = req.params.id;
+    const id = req.params.trainingId;
     const training = await queries.getTrainingByID(id);
     res.send(training);
   });
