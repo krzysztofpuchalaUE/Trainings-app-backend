@@ -137,3 +137,11 @@ export const updateTraining = async (
   );
   return result;
 };
+
+export const deleteCustomTraining = async (id) => {
+  const [result] = await connectionPool.query(
+    "DELETE User_trainings, Trainings FROM User_trainings INNER JOIN Trainings ON User_trainings.training_id = Trainings.id AND User_trainings.trainer_id = Trainings.trainer_id WHERE Trainings.id = ?",
+    [id]
+  );
+  return result;
+};
