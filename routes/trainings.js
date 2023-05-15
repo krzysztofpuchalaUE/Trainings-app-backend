@@ -58,3 +58,37 @@ router.post("/user-trainings/new-training", async (req, res) => {
   );
   res.send(training);
 });
+
+router.patch("/user-trainings/:trainingId/edit", async (req, res) => {
+  const { trainingId, data } = req.body;
+  const {
+    title,
+    category,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    language,
+    location,
+    description,
+    level,
+    trainerId,
+    iconUrl,
+  } = data;
+  const updatedTraining = await queries.updateTraining(
+    trainingId,
+    title,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    language,
+    description,
+    level,
+    category,
+    location,
+    trainerId,
+    iconUrl
+  );
+  return res.send(updatedTraining);
+});
