@@ -21,10 +21,17 @@ router
     res.send(deleteTraining);
   });
 
-router.route("/user-trainings").get(async (req, res) => {
-  const myTrainings = await queries.getAllUserTrainings();
-  res.json(myTrainings);
-});
+router
+  .route("/user-trainings")
+  .get(async (req, res) => {
+    const myTrainings = await queries.getAllUserTrainings();
+    res.json(myTrainings);
+  })
+  .delete(async (req, res) => {
+    const { trainingId } = req.body;
+    const deleteCustomTraining = await queries.deleteCustomTraining(trainingId);
+    return res.send(deleteCustomTraining);
+  });
 
 router.post("/user-trainings/new-training", async (req, res) => {
   const {
