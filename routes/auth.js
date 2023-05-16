@@ -5,15 +5,16 @@ import * as jwt from "jsonwebtoken";
 
 export const router = express.Router();
 
-router.post("/signup", async (req, res) => {
+router.post("/auth/signup", async (req, res) => {
   console.log("body:", req.body);
-  const { firstName, lastName, username, email } = req.body.data;
+  const { registerFirstName, registerLastName, email, password } =
+    req.body.data;
 
-  const hashedPassword = bcrypt.hash(req.body.password, 10);
+  const hashedPassword = bcrypt.hash(password, 10);
+  console.log(hashedPassword);
   const registerUser = await queries.registerUser(
-    firstName,
-    lastName,
-    username,
+    registerFirstName,
+    registerLastName,
     email,
     hashedPassword
   );

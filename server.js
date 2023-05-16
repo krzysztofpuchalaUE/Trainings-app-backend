@@ -8,6 +8,8 @@ export const app = express();
 app.use(cors());
 app.use(express.json());
 const trainingsRouter = allTrainingsRouter;
+const authRouter = authRoutes;
 
 app.use(trainingsRouter);
+app.use(authRouter);
 app.listen(8800);
