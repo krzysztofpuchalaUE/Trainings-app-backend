@@ -26,6 +26,12 @@ router.route("/user-trainings").get(async (req, res) => {
   res.json(myTrainings);
 });
 
+router.get("/trainings/:category", async (req, res) => {
+  const id = req.params.id;
+  const training = await queries.getTrainingByID(id);
+  res.send(training);
+});
+
 router.post("/user-trainings/new-training", async (req, res) => {
   const {
     title,
