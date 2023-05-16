@@ -84,3 +84,6 @@ SELECT * FROM Users
 
 --@block
 ALTER TABLE Users MODIFY COLUMN user_password VARCHAR (255) NOT NULL
+
+--@block
+SELECT user_password FROM Users WHERE user_email = 'kkk.puszek@gmail.com'

@@ -155,7 +155,7 @@ export const deleteCustomTraining = async (id) => {
 };
 
 export const registerUser = async (firstName, lastName, email, password) => {
-  const result = await connectionPool.query(
+  const [result] = await connectionPool.query(
     `INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES (?, ?, ?, ?)`,
     [firstName, lastName, email, password]
   );
@@ -163,7 +163,7 @@ export const registerUser = async (firstName, lastName, email, password) => {
 };
 
 export const loginUser = async (userEmail) => {
-  const result = connectionPool.query(
+  const [result] = await connectionPool.query(
     `SELECT user_password FROM Users WHERE user_email = ?`,
     [userEmail]
   );
