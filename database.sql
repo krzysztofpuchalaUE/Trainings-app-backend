@@ -23,6 +23,8 @@ CREATE TABLE Trainings(
     FOREIGN KEY (trainer_id) REFERENCES Users(id)
 );
 
+
+
 --@block
 ALTER TABLE Trainings ADD COLUMN training_icon TEXT
 
@@ -34,6 +36,19 @@ CREATE TABLE User_trainings(
     FOREIGN KEY (trainer_id) REFERENCES Users(id),
     FOREIGN KEY (training_id) REFERENCES Trainings(id)
 );
+
+
+--@block
+ALTER TABLE User_trainings ADD COLUMN user_email TEXT
+--@block
+ALTER TABLE User_trainings ADD FOREIGN KEY (user_id)REFERENCES Users(id)
+
+--@block
+ALTER TABLE User_trainings DROP COLUMN user_email
+
+--@block
+SELECT * FROM User_trainings
+
 
 --@block
 INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('Captain', 'Price', 'captain123@interia.eu', 'encrypted12345%');
@@ -77,7 +92,7 @@ INSERT INTO Trainings (
 
 --@block
 
-INSERT INTO User_trainings(trainer_id, training_id) VALUES (2, 1) 
+INSERT INTO User_trainings(trainer_id, training_id, user_email) VALUES (2, 1, 'krzysztof.p.rp@gmail.com') 
 
 --@block
 SELECT * FROM Users
@@ -87,3 +102,6 @@ ALTER TABLE Users MODIFY COLUMN user_password VARCHAR (255) NOT NULL
 
 --@block
 SELECT user_password FROM Users WHERE user_email = 'kkk.puszek@gmail.com'
+
+--@block
+SELECT Trainings.id, Trainings.training_title, Trainings.training_start_date, Trainings.training_end_date, Trainings.training_start_time, Trainings.training_end_time, Trainings.training_language, Trainings.training_description,Trainings.training_level, Trainings.training_category,Trainings.training_location,Trainings.trainer_id,Trainings.training_icon FROM Trainings INNER JOIN User_trainings ON Trainings.trainer_id = User_trainings.trainer_id AND Trainings.id = User_trainings.training_id WHERE User_trainings.user_email = 'krzysztof.p.rp@gmail.com'

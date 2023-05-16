@@ -1,9 +1,9 @@
 import * as queries from "../database.js";
 import express from "express";
 import bcrypt, { hash } from "bcrypt";
-import * as jwt from "jsonwebtoken";
 
 export const router = express.Router();
+import { generateAuthToken } from "../utils/authToken.js";
 
 router.post("/auth/signup", async (req, res) => {
   console.log("body:", req.body);
@@ -22,8 +22,6 @@ router.post("/auth/signup", async (req, res) => {
       res.send(registerUser);
     });
   });
-
-  // const token = createJson;
 });
 
 router.post("/auth/login", async (req, res) => {
@@ -37,6 +35,8 @@ router.post("/auth/login", async (req, res) => {
       userPassword[0].user_password + "",
       (err, result) => {
         if (result) {
+          const authenticationToken = generateAuthToken({ email: email });
+          res.json({ authToken: authenticationToken });
           console.log("OK");
           res.sendStatus(200);
         } else {
