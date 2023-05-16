@@ -21,17 +21,10 @@ router
     res.send(deleteTraining);
   });
 
-router
-  .route("/user-trainings")
-  .get(async (req, res) => {
-    const myTrainings = await queries.getAllUserTrainings();
-    res.json(myTrainings);
-  })
-  .delete(async (req, res) => {
-    const { trainingId } = req.body;
-    const deleteCustomTraining = await queries.deleteCustomTraining(trainingId);
-    return res.send(deleteCustomTraining);
-  });
+router.route("/user-trainings").get(async (req, res) => {
+  const myTrainings = await queries.getAllUserTrainings();
+  res.json(myTrainings);
+});
 
 router.post("/user-trainings/new-training", async (req, res) => {
   const {
@@ -106,3 +99,10 @@ router
     const training = await queries.getTrainingByID(id);
     res.send(training);
   });
+
+router.route("/user-trainings/:trainingId/delete").delete(async (req, res) => {
+  console.log("active");
+  const { trainingId } = req.body;
+  const deleteCustomTraining = await queries.deleteCustomTraining(trainingId);
+  return res.send(deleteCustomTraining);
+});
