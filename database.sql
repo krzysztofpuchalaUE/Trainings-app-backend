@@ -78,3 +78,9 @@ INSERT INTO Trainings (
 --@block
 
 INSERT INTO User_trainings(trainer_id, training_id) VALUES (2, 1) 
+
+--@block
+SELECT * FROM Users
+
+--@block
+ALTER TABLE Users MODIFY COLUMN user_password VARCHAR (255) NOT NULL

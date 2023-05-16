@@ -1,6 +1,6 @@
 import * as queries from "../database.js";
 import express from "express";
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
 export const router = express.Router();
@@ -10,15 +10,18 @@ router.post("/auth/signup", async (req, res) => {
   const { registerFirstName, registerLastName, email, password } =
     req.body.data;
 
-  const hashedPassword = bcrypt.hash(password, 10);
-  console.log(hashedPassword);
-  const registerUser = await queries.registerUser(
-    registerFirstName,
-    registerLastName,
-    email,
-    hashedPassword
-  );
-  res.send(registerUser);
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, async function (err, hash) {
+      req.body.password = hash;
+      const registerUser = await queries.registerUser(
+        registerFirstName,
+        registerLastName,
+        email,
+        req.body.password
+      );
+      res.send(registerUser);
+    });
+  });
 
   // const token = createJson;
 });
