@@ -11,9 +11,15 @@ router
     const isRegistered = await queries.getIsRegistered();
     return res.json({ trainings, isRegistered });
   })
-  .post(async (req, res) => {
+  .post(authenticateToken, async (req, res) => {
     const { trainingId, trainerId } = req.body;
-    const addTraining = await queries.registerOnTraining(trainingId, trainerId);
+    const email = req.email.email;
+    console.log(req.email.email);
+    const addTraining = await queries.registerOnTraining(
+      trainingId,
+      trainerId,
+      email
+    );
     res.send(addTraining);
   })
   .delete(async (req, res) => {

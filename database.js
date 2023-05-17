@@ -17,10 +17,10 @@ export const getAllTrainings = async () => {
   return result;
 };
 
-export const registerOnTraining = async (trainingId, trainerId) => {
+export const registerOnTraining = async (trainingId, trainerId, email) => {
   const [result] = await connectionPool.query(
-    `INSERT INTO User_trainings (trainer_id, training_id) VALUES (?,?)`,
-    [trainerId, trainingId]
+    `INSERT INTO User_trainings (trainer_id, training_id, user_email) VALUES (?,?,?)`,
+    [trainerId, trainingId, email]
   );
   return result;
 };
