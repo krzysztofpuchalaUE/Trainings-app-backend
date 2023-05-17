@@ -18,5 +18,8 @@
   "type": "module",
   "author": "Krzysztof Puchała",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "prettier": "^2.8.8"
+  }
 }

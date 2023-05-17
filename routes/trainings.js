@@ -23,8 +23,8 @@ router
   });
 
 router.route("/user-trainings").get(authenticateToken, async (req, res) => {
-  console.log(req.email);
-  const myTrainings = await queries.getAllUserTrainings();
+  const email = req.email.email;
+  const myTrainings = await queries.getAllUserTrainings(email);
   res.json(myTrainings);
 });
 
