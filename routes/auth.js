@@ -37,8 +37,6 @@ router.post("/auth/login", async (req, res) => {
         if (result) {
           const authenticationToken = generateAuthToken({ email: email });
           res.json({ authToken: authenticationToken });
-          console.log("OK");
-          res.sendStatus(200);
         } else {
           console.log("Wrong password");
           res.sendStatus(401);
