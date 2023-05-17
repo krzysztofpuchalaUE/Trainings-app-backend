@@ -14,7 +14,6 @@ router
   .post(authenticateToken, async (req, res) => {
     const { trainingId, trainerId } = req.body;
     const email = req.email.email;
-    console.log(req.email.email);
     const addTraining = await queries.registerOnTraining(
       trainingId,
       trainerId,
@@ -22,9 +21,13 @@ router
     );
     res.send(addTraining);
   })
-  .delete(async (req, res) => {
+  .delete(authenticateToken, async (req, res) => {
     const { trainingId } = req.body;
-    const deleteTraining = await queries.unregisterFromTraining(trainingId);
+    const email = req.email.email;
+    const deleteTraining = await queries.unregisterFromTraining(
+      trainingId,
+      email
+    );
     res.send(deleteTraining);
   });
 
