@@ -6,9 +6,10 @@ export const router = express.Router();
 
 router
   .route("/trainings")
-  .get(async (req, res) => {
+  .get(authenticateToken, async (req, res) => {
+    const email = req.email.email;
     const trainings = await queries.getAllTrainings();
-    const isRegistered = await queries.getIsRegistered();
+    const isRegistered = await queries.getIsRegistered(email);
     return res.json({ trainings, isRegistered });
   })
   .post(authenticateToken, async (req, res) => {
