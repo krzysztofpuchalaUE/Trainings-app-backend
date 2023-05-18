@@ -46,7 +46,6 @@ export const getTrainingByProperties = async (
   trainingCategory,
   trainerId
 ) => {
-  console.log(trainingTitle, ",", trainingCategory, ",", trainerId);
   const [result] = await connectionPool.query(
     "SELECT Trainings.id FROM Trainings WHERE Trainings.training_title = ? AND Trainings.training_category = ? AND Trainings.trainer_id = ?",
     [trainingTitle, trainingCategory, trainerId]
