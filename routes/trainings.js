@@ -51,7 +51,7 @@ router.post(
   async (req, res) => {
     const email = req.email.email;
     const trainerData = await queries.getUserByEmail(email);
-    const { user_first_name, user_last_name, id } = trainerData[0];
+    const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
     const {
       title,
       category,
@@ -77,10 +77,19 @@ router.post(
       description,
       level,
       user_first_name.concat(" ", user_last_name),
-      id,
+      trainerId,
       iconUrl
     );
-    console.log(training);
+    const trainingDbId = await queries.getTrainingByProperties(
+      title,
+      category,
+      trainerId
+    );
+    const register = await queries.registerOnTraining(
+      trainingDbId[0].id,
+      trainerId,
+      email
+    );
     res.send(training);
   }
 );
@@ -127,7 +136,6 @@ router
   });
 
 router.route("/user-trainings/:trainingId/delete").delete(async (req, res) => {
-  console.log("active");
   const { trainingId } = req.body;
   const deleteCustomTraining = await queries.deleteCustomTraining(trainingId);
   return res.send(deleteCustomTraining);
