@@ -96,7 +96,10 @@ router.post(
 
 router
   .route("/user-trainings/:trainingId/edit")
-  .patch(async (req, res) => {
+  .patch(authenticateToken, async (req, res) => {
+    const email = req.email.email;
+    const trainerData = await queries.getUserByEmail(email);
+    const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
     const { trainingId, data } = req.body;
     const {
       title,
@@ -109,7 +112,6 @@ router
       location,
       description,
       level,
-      trainerId,
       iconUrl,
     } = data;
     const updatedTraining = await queries.updateTraining(
@@ -124,6 +126,7 @@ router
       level,
       category,
       location,
+      user_first_name.concat(" ", user_last_name),
       trainerId,
       iconUrl
     );

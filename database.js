@@ -139,11 +139,12 @@ export const updateTraining = async (
   level,
   category,
   location,
+  trainer,
   trainer_id,
   iconUrl
 ) => {
   const [result] = await connectionPool.query(
-    `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?,trainer_id = ?,training_icon = '?'
+    `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?, trainer = ?, trainer_id = ?,training_icon = '?'
     WHERE id = ?`,
     [
       title,
@@ -156,6 +157,7 @@ export const updateTraining = async (
       level,
       category,
       location,
+      trainer,
       trainer_id,
       iconUrl,
       id,
