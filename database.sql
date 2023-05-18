@@ -23,6 +23,14 @@ CREATE TABLE Trainings(
     FOREIGN KEY (trainer_id) REFERENCES Users(id)
 );
 
+--@block
+ALTER TABLE Trainings ADD COLUMN trainer TEXT
+
+--@block
+SELECT id FROM Users WHERE user_email = 'krzysztof.p.rp@gmail.com'
+
+--@block
+SELECT user_first_name, user_last_name FROM Users WHERE user_email = 'krzysztof.p.rp@gmail.com'
 
 
 --@block
@@ -49,6 +57,8 @@ ALTER TABLE User_trainings DROP COLUMN user_email
 --@block
 SELECT * FROM User_trainings
 
+--@block
+SELECT * FROM Trainings
 
 --@block
 INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES ('Captain', 'Price', 'captain123@interia.eu', 'encrypted12345%');

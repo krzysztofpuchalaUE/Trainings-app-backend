@@ -35,6 +35,7 @@ router
 router.route("/user-trainings").get(authenticateToken, async (req, res) => {
   const email = req.email.email;
   const myTrainings = await queries.getAllUserTrainings(email);
+  // const createdByUserTrainings = await queries.checkCreatedByUser(email);
   res.json(myTrainings);
 });
 
@@ -44,38 +45,45 @@ router.get("/trainings/:category", async (req, res) => {
   res.send(training);
 });
 
-router.post("/user-trainings/new-training", async (req, res) => {
-  const {
-    title,
-    category,
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    language,
-    location,
-    description,
-    level,
-    trainerId,
-    iconUrl,
-  } = req.body.data;
-  console.log(req.body.data);
-  const training = await queries.createTraining(
-    title,
-    category,
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    language,
-    location,
-    description,
-    level,
-    trainerId,
-    iconUrl
-  );
-  res.send(training);
-});
+router.post(
+  "/user-trainings/new-training",
+  authenticateToken,
+  async (req, res) => {
+    const email = req.email.email;
+    const trainerData = await queries.getUserByEmail(email);
+    const { user_first_name, user_last_name, id } = trainerData[0];
+    const {
+      title,
+      category,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      language,
+      location,
+      description,
+      level,
+      iconUrl,
+    } = req.body.data;
+    const training = await queries.createTraining(
+      title,
+      category,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      language,
+      location,
+      description,
+      level,
+      user_first_name.concat(" ", user_last_name),
+      id,
+      iconUrl
+    );
+    console.log(training);
+    res.send(training);
+  }
+);
 
 router
   .route("/user-trainings/:trainingId/edit")

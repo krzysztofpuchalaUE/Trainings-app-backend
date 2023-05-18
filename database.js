@@ -76,6 +76,7 @@ export const createTraining = async (
   location,
   description,
   level,
+  trainer,
   trainer_id,
   iconUrl
 ) => {
@@ -91,8 +92,9 @@ export const createTraining = async (
     training_level,
     training_category,
     training_location,
+    trainer,
     trainer_id,
-    training_icon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+    training_icon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
     [
       title,
       startDate,
@@ -104,6 +106,7 @@ export const createTraining = async (
       level,
       category,
       location,
+      trainer,
       trainer_id,
       iconUrl,
     ]
@@ -167,6 +170,18 @@ export const registerUser = async (firstName, lastName, email, password) => {
 export const loginUser = async (userEmail) => {
   const [result] = await connectionPool.query(
     `SELECT user_password FROM Users WHERE user_email = ?`,
+    [userEmail]
+  );
+  return result;
+};
+
+export const checkCreatedByUser = async (userEmail) => {
+  const [result] = await connectionPool.query();
+};
+
+export const getUserByEmail = async (userEmail) => {
+  const [result] = await connectionPool.query(
+    "SELECT id, user_first_name, user_last_name FROM Users WHERE user_email = ?",
     [userEmail]
   );
   return result;
