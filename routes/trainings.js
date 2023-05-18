@@ -158,23 +158,65 @@ router
       level,
       iconUrl,
     } = data;
-    const updatedTraining = await queries.updateTraining(
-      trainingId,
-      title,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      language,
-      description,
-      level,
-      category,
-      location,
-      user_first_name.concat(" ", user_last_name),
-      trainerId,
-      iconUrl
-    );
-    return res.send(updatedTraining);
+
+    let errors = {};
+
+    if (!validation.isTitleValid(title)) errors.title = "Invalid title";
+
+    if (!validation.isCategoryValid(category))
+      errors.category = "Invalid category";
+
+    if (!validation.isStartDateValid(startDate, endDate))
+      errors.startDate = "Ivalid start date";
+
+    if (!validation.isEndDateValid(endDate, startDate))
+      errors.endDate = "Invalid end date";
+
+    if (!validation.isStartTimeValid(startTime))
+      errors.startTime = "Invalid start time";
+
+    if (!validation.isEndTimeValid(endTime))
+      errors.endTime = "Invalid end time";
+
+    if (!validation.isLanguageValid(language))
+      errors.language = "Invalid language";
+
+    if (!validation.isLocationValid(location))
+      errors.location = "Invalid location";
+
+    if (!validation.isLevelValid(level)) errors.level = "Invalid level";
+
+    if (!validation.isDescriptionValid(description))
+      errors.description = "Invalid description";
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(422).json({
+        message: "Create training failed due to validation errors",
+        errors,
+      });
+    }
+
+    try {
+      const updatedTraining = await queries.updateTraining(
+        trainingId,
+        title,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        language,
+        description,
+        level,
+        category,
+        location,
+        user_first_name.concat(" ", user_last_name),
+        trainerId,
+        iconUrl
+      );
+      res.json({ message: "successfully updated training" });
+    } catch {
+      res.status(500).json({ message: "update training failed" });
+    }
   })
   .get(async (req, res) => {
     const id = req.params.trainingId;
