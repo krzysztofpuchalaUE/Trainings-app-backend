@@ -42,9 +42,13 @@ router.route("/user-trainings").get(authenticateToken, async (req, res) => {
 });
 
 router.get("/trainings/:category", async (req, res) => {
-  const id = req.params.id;
-  const training = await queries.getTrainingByID(id);
-  res.send(training);
+  try {
+    const id = req.params.id;
+    const training = await queries.getTrainingByID(id);
+    res.json({ training });
+  } catch {
+    res.status(500).json("");
+  }
 });
 
 router.post(
@@ -106,7 +110,7 @@ router.post(
     }
 
     try {
-      const training = await queries.createTraining(
+      await queries.createTraining(
         title,
         category,
         startDate,
@@ -126,11 +130,7 @@ router.post(
         category,
         trainerId
       );
-      const register = await queries.registerOnTraining(
-        trainingDbId[0].id,
-        trainerId,
-        email
-      );
+      await queries.registerOnTraining(trainingDbId[0].id, trainerId, email);
       res.json({ message: "successfully created training" });
     } catch {
       res.status(500).json({ message: "create training failed" });
@@ -197,7 +197,7 @@ router
     }
 
     try {
-      const updatedTraining = await queries.updateTraining(
+      await queries.updateTraining(
         trainingId,
         title,
         startDate,
@@ -218,14 +218,24 @@ router
       res.status(500).json({ message: "update training failed" });
     }
   })
-  .get(async (req, res) => {
-    const id = req.params.trainingId;
-    const training = await queries.getTrainingByID(id);
-    res.send(training);
+  .get(authenticateToken, async (req, res) => {
+    try {
+      const id = req.params.trainingId;
+      const training = await queries.getTrainingByID(id);
+      res.json({ training });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: err ? `${err}` : "update training failed" });
+    }
   });
 
 router.route("/user-trainings/:trainingId/delete").delete(async (req, res) => {
   const { trainingId } = req.body;
-  const deleteCustomTraining = await queries.deleteCustomTraining(trainingId);
-  return res.send(deleteCustomTraining);
+  try {
+    await queries.deleteCustomTraining(trainingId);
+    return res.json({ message: "Deleted training succesfull" });
+  } catch {
+    res.status(500).json({ message: "Delete training failed" });
+  }
 });
