@@ -10,7 +10,8 @@ router
     const email = req.email.email;
     const trainings = await queries.getAllTrainings();
     const isRegistered = await queries.getIsRegistered(email);
-    return res.json({ trainings, isRegistered });
+    const allCategories = await queries.getAllCategories();
+    return res.json({ trainings, isRegistered, allCategories });
   })
   .post(authenticateToken, async (req, res) => {
     const { trainingId, trainerId } = req.body;

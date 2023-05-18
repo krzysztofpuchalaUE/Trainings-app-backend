@@ -201,3 +201,10 @@ export const getUserByEmail = async (userEmail) => {
   );
   return result;
 };
+
+export const getAllCategories = async () => {
+  const [result] = await connectionPool.query(
+    "SELECT DISTINCT Trainings.training_category FROM Trainings"
+  );
+  return result;
+};

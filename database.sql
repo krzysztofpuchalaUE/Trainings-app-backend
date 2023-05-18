@@ -5,6 +5,9 @@ CREATE TABLE Users(
     user_email VARCHAR(50) NOT NULL,
     user_password VARCHAR(20) NOT NULL UNIQUE
 );
+--@block
+SELECT DISTINCT Trainings.training_category FROM Trainings
+
 
 --@block
 CREATE TABLE Trainings(
