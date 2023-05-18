@@ -35,8 +35,8 @@ router
 router.route("/user-trainings").get(authenticateToken, async (req, res) => {
   const email = req.email.email;
   const myTrainings = await queries.getAllUserTrainings(email);
-  // const createdByUserTrainings = await queries.checkCreatedByUser(email);
-  res.json(myTrainings);
+  const userId = await queries.getUserByEmail(email);
+  res.json({ myTrainings, userId });
 });
 
 router.get("/trainings/:category", async (req, res) => {
