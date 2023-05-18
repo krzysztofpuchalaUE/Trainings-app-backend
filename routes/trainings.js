@@ -1,6 +1,7 @@
 import * as queries from "../database.js";
 import express from "express";
 import { authenticateToken } from "../utils/authToken.js";
+import * as validation from "../validation/validation.js";
 
 export const router = express.Router();
 
@@ -53,6 +54,8 @@ router.post(
     const email = req.email.email;
     const trainerData = await queries.getUserByEmail(email);
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
+
+    let errors = {};
     const {
       title,
       category,
@@ -66,32 +69,72 @@ router.post(
       level,
       iconUrl,
     } = req.body.data;
-    const training = await queries.createTraining(
-      title,
-      category,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      language,
-      location,
-      description,
-      level,
-      user_first_name.concat(" ", user_last_name),
-      trainerId,
-      iconUrl
-    );
-    const trainingDbId = await queries.getTrainingByProperties(
-      title,
-      category,
-      trainerId
-    );
-    const register = await queries.registerOnTraining(
-      trainingDbId[0].id,
-      trainerId,
-      email
-    );
-    res.send(training);
+
+    if (!validation.isTitleValid(title)) errors.title = "Invalid title";
+
+    if (!validation.isCategoryValid(category))
+      errors.category = "Invalid category";
+
+    if (!validation.isStartDateValid(startDate, endDate))
+      errors.startDate = "Ivalid start date";
+
+    if (!validation.isEndDateValid(endDate, startDate))
+      errors.endDate = "Invalid end date";
+
+    if (!validation.isStartTimeValid(startTime))
+      errors.startTime = "Invalid start time";
+
+    if (!validation.isEndTimeValid(endTime))
+      errors.endTime = "Invalid end time";
+
+    if (!validation.isLanguageValid(language))
+      errors.language = "Invalid language";
+
+    if (!validation.isLocationValid(location))
+      errors.location = "Invalid location";
+
+    if (!validation.isLevelValid(level)) errors.level = "Invalid level";
+
+    if (!validation.isDescriptionValid(description))
+      errors.description = "Invalid description";
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(422).json({
+        message: "Create training failed due to validation errors",
+        errors,
+      });
+    }
+
+    try {
+      const training = await queries.createTraining(
+        title,
+        category,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        language,
+        location,
+        description,
+        level,
+        user_first_name.concat(" ", user_last_name),
+        trainerId,
+        iconUrl
+      );
+      const trainingDbId = await queries.getTrainingByProperties(
+        title,
+        category,
+        trainerId
+      );
+      const register = await queries.registerOnTraining(
+        trainingDbId[0].id,
+        trainerId,
+        email
+      );
+      res.json({ message: "successfully created training" });
+    } catch {
+      res.status(500).json({ message: "create training failed" });
+    }
   }
 );
 
