@@ -30,7 +30,14 @@ CREATE TABLE Trainings(
 --@block
 ALTER TABLE Trainings ADD COLUMN trainer TEXT
 
+--@block
+DELETE FROM Users;
 
+--@block
+DELETE FROM Trainings;
+
+--@block
+DELETE FROM User_trainings;
 
 --@block
 SELECT id FROM Users WHERE user_email = 'krzysztof.p.rp@gmail.com'
@@ -114,7 +121,7 @@ INSERT INTO Trainings (
 INSERT INTO User_trainings(trainer_id, training_id, user_email) VALUES (2, 1, 'krzysztof.p.rp@gmail.com') 
 
 --@block
-SELECT * FROM User_trainings
+SELECT * FROM Users
 
 --@block
 ALTER TABLE Users MODIFY COLUMN user_password VARCHAR (255) NOT NULL
