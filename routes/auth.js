@@ -4,10 +4,35 @@ import bcrypt, { hash } from "bcrypt";
 
 export const router = express.Router();
 import { generateAuthToken } from "../utils/authToken.js";
+import * as validation from "../validation/validation.js";
 
 router.post("/auth/signup", async (req, res) => {
   const { registerFirstName, registerLastName, email, password } =
     req.body.data;
+
+  let errors = {};
+
+  if (!validation.isFirstNameValid) {
+    return (errors.firstName = "Invalid first name");
+  }
+
+  if (!validation.isLastNameValid) {
+    return (errors.lastName = "Invalid last name");
+  }
+
+  if (!validation.isEmailValid) {
+    return (errors.email = "Invalid email");
+  }
+
+  if (!validation.isPasswordValid) {
+    return (errors.password = "Invalid password");
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return res
+      .status(422)
+      .json({ message: "Register failed due to validation error", errors });
+  }
 
   try {
     bcrypt.genSalt(10, (err, salt) => {

@@ -45,3 +45,19 @@ export const isLevelValid = (level) => {
 export const isDescriptionValid = (description) => {
   if (description.length < 250) return true;
 };
+
+export const isFirstNameValid = (firstName) => {
+  return firstName.trim() !== "";
+};
+
+export const isLastNameValid = (lastName) => {
+  return lastName.trim() !== "";
+};
+
+export const isEmailValid = (email) => {
+  return email.includes("@");
+};
+
+export const isPasswordValid = (password) => {
+  return password.length > 6;
+};
