@@ -13,7 +13,8 @@ router
       const trainings = await queries.getAllTrainings();
       const isRegistered = await queries.getIsRegistered(email);
       const allCategories = await queries.getAllCategories();
-      return res.json({ trainings, isRegistered, allCategories });
+      const userId = await queries.getUserByEmail(email);
+      return res.json({ trainings, isRegistered, allCategories, userId });
     } catch {
       res
         .status(500)
