@@ -6,22 +6,25 @@ export const router = express.Router();
 import { generateAuthToken } from "../utils/authToken.js";
 
 router.post("/auth/signup", async (req, res) => {
-  console.log("body:", req.body);
   const { registerFirstName, registerLastName, email, password } =
     req.body.data;
 
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(password, salt, async function (err, hash) {
-      req.body.password = hash;
-      const registerUser = await queries.registerUser(
-        registerFirstName,
-        registerLastName,
-        email,
-        req.body.password
-      );
-      res.send(registerUser);
+  try {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, async function (err, hash) {
+        req.body.password = hash;
+        const registerUser = await queries.registerUser(
+          registerFirstName,
+          registerLastName,
+          email,
+          req.body.password
+        );
+        res.json({ message: "User succesfully registered" });
+      });
     });
-  });
+  } catch {
+    res.status(500).json({ message: "Register user failed" });
+  }
 });
 
 router.post("/auth/login", async (req, res) => {
@@ -44,6 +47,8 @@ router.post("/auth/login", async (req, res) => {
       }
     );
   } catch {
-    res.status(500).send();
+    res
+      .status(422)
+      .json({ message: "Login user failed due to validation errors" });
   }
 });
