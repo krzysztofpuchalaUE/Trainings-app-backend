@@ -50,6 +50,9 @@ SELECT user_first_name, user_last_name FROM Users WHERE user_email = 'krzysztof.
 ALTER TABLE Trainings ADD COLUMN training_icon TEXT
 
 --@block
+ALTER TABLE Trainings DROP COLUMN training_icon
+
+--@block
 CREATE TABLE User_trainings(
     id INT auto_increment PRIMARY KEY, 
     trainer_id INT NOT NULL,
@@ -60,7 +63,7 @@ CREATE TABLE User_trainings(
 
 
 --@block
-ALTER TABLE User_trainings ADD COLUMN user_email TEXT
+ALTER TABLE Trainings ADD COLUMN training_icon TEXT
 --@block
 ALTER TABLE User_trainings ADD FOREIGN KEY (user_id)REFERENCES Users(id)
 

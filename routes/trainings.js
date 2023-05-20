@@ -2,8 +2,22 @@ import * as queries from "../database.js";
 import express from "express";
 import { authenticateToken } from "../utils/authToken.js";
 import * as validation from "../validation/validation.js";
+import multer from "multer";
 
 export const router = express.Router();
+
+const imgconfig = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "./uploads");
+  },
+  filename: (req, file, callback) => {
+    callback(null, `image-${Date.now()}.${file.originalname}`);
+  },
+});
+
+const upload = multer({
+  storage: imgconfig,
+});
 
 router
   .route("/trainings")
@@ -75,11 +89,13 @@ router.get("/trainings/:category", async (req, res) => {
 router.post(
   "/user-trainings/new-training",
   authenticateToken,
+  upload.single("image"),
   async (req, res) => {
     const email = req.email.email;
     const trainerData = await queries.getUserByEmail(email);
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
 
+    const { filename } = req.file;
     let errors = {};
     const {
       title,
@@ -92,8 +108,7 @@ router.post(
       location,
       description,
       level,
-      iconUrl,
-    } = req.body.data;
+    } = req.body;
 
     if (!validation.isTitleValid(title)) errors.title = "Invalid title";
 
@@ -144,7 +159,7 @@ router.post(
         level,
         user_first_name.concat(" ", user_last_name),
         trainerId,
-        iconUrl
+        filename
       );
       const trainingDbId = await queries.getTrainingByProperties(
         title,

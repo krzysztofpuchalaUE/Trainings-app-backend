@@ -90,7 +90,7 @@ export const createTraining = async (
   level,
   trainer,
   trainer_id,
-  iconUrl
+  file
 ) => {
   const [result] = await connectionPool.query(
     `INSERT INTO Trainings (
@@ -120,9 +120,10 @@ export const createTraining = async (
       location,
       trainer,
       trainer_id,
-      iconUrl,
+      file,
     ]
   );
+  console.log(result);
   return result;
 };
 
