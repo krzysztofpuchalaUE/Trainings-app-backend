@@ -6,5 +6,6 @@
     "password": { "ENV": "MYSQL_PASSWORD" },
     "database": { "ENV": "MYSQL_DATABASE_TEST_MIGRATION" },
     "multipleStatements": true
-  }
+  },
+  "sql-file": true
 }
