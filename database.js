@@ -123,7 +123,6 @@ export const createTraining = async (
       file,
     ]
   );
-  console.log(result);
   return result;
 };
 
@@ -141,11 +140,10 @@ export const updateTraining = async (
   location,
   trainer,
   trainer_id,
-  iconUrl
+  file
 ) => {
   const [result] = await connectionPool.query(
-    `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?, trainer = ?, trainer_id = ?,training_icon = '?'
-    WHERE id = ?`,
+    `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?, trainer = ?, trainer_id = '?',training_icon = ? WHERE id = ?`,
     [
       title,
       startDate,
@@ -159,7 +157,7 @@ export const updateTraining = async (
       location,
       trainer,
       trainer_id,
-      iconUrl,
+      file,
       id,
     ]
   );

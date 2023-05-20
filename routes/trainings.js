@@ -176,11 +176,12 @@ router.post(
 
 router
   .route("/user-trainings/:trainingId/edit")
-  .patch(authenticateToken, async (req, res) => {
+  .patch(authenticateToken, upload.single("image"), async (req, res) => {
     const email = req.email.email;
     const trainerData = await queries.getUserByEmail(email);
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
-    const { trainingId, data } = req.body;
+    const { filename } = req.file;
+    console.log(filename);
     const {
       title,
       category,
@@ -192,8 +193,8 @@ router
       location,
       description,
       level,
-      iconUrl,
-    } = data;
+      trainingId,
+    } = req.body;
 
     let errors = {};
 
@@ -247,7 +248,7 @@ router
         location,
         user_first_name.concat(" ", user_last_name),
         trainerId,
-        iconUrl
+        filename
       );
       res.json({ message: "Successfully updated training" });
     } catch {
@@ -256,6 +257,7 @@ router
   })
   .get(authenticateToken, async (req, res) => {
     try {
+      console.log(res.body);
       const id = req.params.trainingId;
       const training = await queries.getTrainingByID(id);
       res.json({ training });
