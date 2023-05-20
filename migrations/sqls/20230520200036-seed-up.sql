@@ -32,3 +32,7 @@ CREATE TABLE User_trainings(
     FOREIGN KEY (trainer_id) REFERENCES Users(id),
     FOREIGN KEY (training_id) REFERENCES Trainings(id)
 );
+
+--@block
+
+SELECT * FROM User_trainings

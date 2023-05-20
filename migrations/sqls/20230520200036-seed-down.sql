@@ -1,3 +1,3 @@
-DROP TABLE Users;
-DROP TABLE Trainings;
 DROP TABLE User_trainings;
+DROP TABLE Trainings;
+DROP TABLE Users;
