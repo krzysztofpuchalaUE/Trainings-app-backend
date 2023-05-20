@@ -3,7 +3,7 @@ export const isTitleValid = (title) => {
 };
 
 export const isCategoryValid = (category) => {
-  if (category !== null) return true;
+  if (category !== undefined) return true;
 };
 
 export const isStartDateValid = (startDate, endDate) => {
