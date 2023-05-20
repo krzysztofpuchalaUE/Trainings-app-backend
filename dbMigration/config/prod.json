@@ -1,0 +1,10 @@
+{
+  "dev": {
+    "driver": "",
+    "host": { "ENV": "" },
+    "user": { "ENV": "" },
+    "password": { "ENV": "" },
+    "database": { "ENV": "" },
+    "multipleStatements": true
+  }
+}
