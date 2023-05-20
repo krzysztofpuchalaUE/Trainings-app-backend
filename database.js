@@ -13,32 +13,48 @@ export const connectionPool = mysql
   .promise();
 
 export const getAllTrainings = async () => {
-  const [result] = await connectionPool.query("SELECT * FROM Trainings");
-  return result;
+  try {
+    const [result] = await connectionPool.query("SELECT * FROM Trainings");
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const registerOnTraining = async (trainingId, trainerId, email) => {
-  const [result] = await connectionPool.query(
-    `INSERT INTO User_trainings (trainer_id, training_id, user_email) VALUES (?,?,?)`,
-    [trainerId, trainingId, email]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      `INSERT INTO User_trainings (trainer_id, training_id, user_email) VALUES (?,?,?)`,
+      [trainerId, trainingId, email]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const unregisterFromTraining = async (trainingId, email) => {
-  const [result] = await connectionPool.query(
-    "DELETE FROM User_trainings WHERE User_trainings.training_id = ? AND User_trainings.user_email = ?",
-    [trainingId, email]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "DELETE FROM User_trainings WHERE User_trainings.training_id = ? AND User_trainings.user_email = ?",
+      [trainingId, email]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getIsRegistered = async (email) => {
-  const [result] = await connectionPool.query(
-    "SELECT training_id FROM User_trainings INNER JOIN Trainings ON User_trainings.training_id = Trainings.id AND User_trainings.trainer_id = Trainings.trainer_id WHERE User_trainings.training_id = Trainings.id AND User_trainings.user_email = ?",
-    [email]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT training_id FROM User_trainings INNER JOIN Trainings ON User_trainings.training_id = Trainings.id AND User_trainings.trainer_id = Trainings.trainer_id WHERE User_trainings.training_id = Trainings.id AND User_trainings.user_email = ?",
+      [email]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getTrainingByProperties = async (
@@ -46,35 +62,51 @@ export const getTrainingByProperties = async (
   trainingCategory,
   trainerId
 ) => {
-  const [result] = await connectionPool.query(
-    "SELECT Trainings.id FROM Trainings WHERE Trainings.training_title = ? AND Trainings.training_category = ? AND Trainings.trainer_id = ?",
-    [trainingTitle, trainingCategory, trainerId]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT Trainings.id FROM Trainings WHERE Trainings.training_title = ? AND Trainings.training_category = ? AND Trainings.trainer_id = ?",
+      [trainingTitle, trainingCategory, trainerId]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getAllUserTrainings = async (userEmail) => {
-  const [result] = await connectionPool.query(
-    "SELECT Trainings.id, Trainings.training_title, Trainings.training_start_date, Trainings.training_end_date, Trainings.training_start_time, Trainings.training_end_time, Trainings.training_language, Trainings.training_description,Trainings.training_level, Trainings.training_category,Trainings.training_location, Trainings.trainer, Trainings.trainer_id,Trainings.training_icon FROM Trainings INNER JOIN User_trainings ON Trainings.trainer_id = User_trainings.trainer_id AND Trainings.id = User_trainings.training_id WHERE User_trainings.user_email = ?",
-    [userEmail]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT Trainings.id, Trainings.training_title, Trainings.training_start_date, Trainings.training_end_date, Trainings.training_start_time, Trainings.training_end_time, Trainings.training_language, Trainings.training_description,Trainings.training_level, Trainings.training_category,Trainings.training_location, Trainings.trainer, Trainings.trainer_id,Trainings.training_icon FROM Trainings INNER JOIN User_trainings ON Trainings.trainer_id = User_trainings.trainer_id AND Trainings.id = User_trainings.training_id WHERE User_trainings.user_email = ?",
+      [userEmail]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getAllTrainingsByCategory = async (category) => {
-  const [result] = await connectionPool.query(
-    "SELECT trainig FROM Trainings WHERE category = ?",
-    [category]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT trainig FROM Trainings WHERE category = ?",
+      [category]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getTrainingByID = async (id) => {
-  const [result] = await connectionPool.query(
-    "SELECT * FROM Trainings WHERE id = ?",
-    [id]
-  );
-  return result[0];
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT * FROM Trainings WHERE id = ?",
+      [id]
+    );
+    return result[0];
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const createTraining = async (
@@ -92,38 +124,42 @@ export const createTraining = async (
   trainer_id,
   file
 ) => {
-  const [result] = await connectionPool.query(
-    `INSERT INTO Trainings (
-    training_title,
-    training_start_date,
-    training_end_date,
-    training_start_time,
-    training_end_time,
-    training_language,
-    training_description,
-    training_level,
-    training_category,
-    training_location,
-    trainer,
-    trainer_id,
-    training_icon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-    [
-      title,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      language,
-      description,
-      level,
-      category,
-      location,
+  try {
+    const [result] = await connectionPool.query(
+      `INSERT INTO Trainings (
+      training_title,
+      training_start_date,
+      training_end_date,
+      training_start_time,
+      training_end_time,
+      training_language,
+      training_description,
+      training_level,
+      training_category,
+      training_location,
       trainer,
       trainer_id,
-      file,
-    ]
-  );
-  return result;
+      training_icon) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [
+        title,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        language,
+        description,
+        level,
+        category,
+        location,
+        trainer,
+        trainer_id,
+        file,
+      ]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const updateTraining = async (
@@ -169,44 +205,60 @@ export const updateTraining = async (
 };
 
 export const deleteCustomTraining = async (id) => {
-  const [result] = await connectionPool.query(
-    "DELETE User_trainings, Trainings FROM User_trainings INNER JOIN Trainings ON User_trainings.training_id = Trainings.id AND User_trainings.trainer_id = Trainings.trainer_id WHERE Trainings.id = ?",
-    [id]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "DELETE User_trainings, Trainings FROM User_trainings INNER JOIN Trainings ON User_trainings.training_id = Trainings.id AND User_trainings.trainer_id = Trainings.trainer_id WHERE Trainings.id = ?",
+      [id]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const registerUser = async (firstName, lastName, email, password) => {
-  const [result] = await connectionPool.query(
-    `INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES (?, ?, ?, ?)`,
-    [firstName, lastName, email, password]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      `INSERT INTO Users (user_first_name, user_last_name, user_email, user_password) VALUES (?, ?, ?, ?)`,
+      [firstName, lastName, email, password]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const loginUser = async (userEmail) => {
-  const [result] = await connectionPool.query(
-    `SELECT user_password FROM Users WHERE user_email = ?`,
-    [userEmail]
-  );
-  return result;
-};
-
-export const checkCreatedByUser = async (userEmail) => {
-  const [result] = await connectionPool.query();
+  try {
+    const [result] = await connectionPool.query(
+      `SELECT user_password FROM Users WHERE user_email = ?`,
+      [userEmail]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getUserByEmail = async (userEmail) => {
-  const [result] = await connectionPool.query(
-    "SELECT id, user_first_name, user_last_name FROM Users WHERE user_email = ?",
-    [userEmail]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT id, user_first_name, user_last_name FROM Users WHERE user_email = ?",
+      [userEmail]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getAllCategories = async () => {
-  const [result] = await connectionPool.query(
-    "SELECT DISTINCT Trainings.training_category FROM Trainings"
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      "SELECT DISTINCT Trainings.training_category FROM Trainings"
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
