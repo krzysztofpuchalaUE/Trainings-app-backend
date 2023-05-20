@@ -142,26 +142,30 @@ export const updateTraining = async (
   trainer_id,
   file
 ) => {
-  const [result] = await connectionPool.query(
-    `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?, trainer = ?, trainer_id = '?',training_icon = ? WHERE id = ?`,
-    [
-      title,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      language,
-      description,
-      level,
-      category,
-      location,
-      trainer,
-      trainer_id,
-      file,
-      id,
-    ]
-  );
-  return result;
+  try {
+    const [result] = await connectionPool.query(
+      `UPDATE Trainings SET training_title = ?, training_start_date = ?, training_end_date = ?, training_start_time = ?, training_end_time = ?, training_language = ?, training_description = ?,training_level = ?, training_category = ?,training_location = ?, trainer = ?, trainer_id = ?,training_icon = ? WHERE id = ?`,
+      [
+        title,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        language,
+        description,
+        level,
+        category,
+        location,
+        trainer,
+        trainer_id,
+        file,
+        id,
+      ]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const deleteCustomTraining = async (id) => {
