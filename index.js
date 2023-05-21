@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const app = express();
+const app = express();
 app.use("/uploads", express.static("uploads"));
 import { router as allTrainingsRouter } from "./routes/trainings.js";
 import { router as authRoutes } from "./routes/auth.js";
