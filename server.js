@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const app = express();
 app.use("/uploads", express.static("uploads"));
@@ -13,4 +15,6 @@ const authRouter = authRoutes;
 
 app.use(trainingsRouter);
 app.use(authRouter);
-app.listen(8800);
+const PORT = process.env.PORT;
+
+app.listen(PORT || 8800);
