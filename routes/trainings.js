@@ -8,8 +8,10 @@ import path from "path";
 export const router = express.Router();
 
 const imgconfig = multer.diskStorage({
-  destination: (req, file, callback) => {
-    cb(null, path.join(__dirname, "/uploads/"));
+  destination: function (req, file, cb) {
+    fs.mkdir("./uploads/", (err) => {
+      cb(null, "./uploads/");
+    });
   },
   filename: (req, file, callback) => {
     callback(null, `image-${Date.now()}.${file.originalname}`);
