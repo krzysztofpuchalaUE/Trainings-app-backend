@@ -12,6 +12,7 @@ const description = "description";
 const trainerId = "1";
 
 test("Properly validate form", () => {
+  expect(validation.isTitleValid(title)).toBe(true);
   expect(validation.isCategoryValid(category)).toBe(true);
   expect(validation.isCategoryValid(undefined)).not.toBe(true);
   expect(validation.isStartDateValid(startDate, endDate)).toBe(true);
