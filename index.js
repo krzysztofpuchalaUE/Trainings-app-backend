@@ -4,7 +4,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://trainings-app-frontend.vercel.app",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+  })
+);
 app.use(express.json());
 import { router as allTrainingsRouter } from "./routes/trainings.js";
 import { router as authRoutes } from "./routes/auth.js";
