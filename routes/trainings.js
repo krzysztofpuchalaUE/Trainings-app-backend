@@ -2,9 +2,22 @@ import * as queries from "../database.js";
 import express from "express";
 import { authenticateToken } from "../utils/authToken.js";
 import * as validation from "../validation/validation.js";
-import multer from "multer";
+import multer, { memoryStorage } from "multer";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "../firebaseConfig.js";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 export const router = express.Router();
+const app = initializeApp(firebaseConfig);
+
+const storage = getStorage();
+
+const upload = multer({ storage: memoryStorage() });
 
 router
   .route("/trainings")
@@ -83,6 +96,23 @@ router.post(
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
     const img = req.file ? req.file.filename : null;
 
+    const storageRef = ref(
+      storage,
+      `images/${req.file.originalname + "    " + Date.now()}`
+    );
+
+    const metadata = {
+      contentType: img.mimetype,
+    };
+
+    const snapshot = await uploadBytesResumable(
+      storageRef,
+      img.buffer,
+      metadata
+    );
+
+    const imgUrl = await getDownloadURL(snapshot.ref);
+
     let errors = {};
 
     const {
@@ -147,7 +177,7 @@ router.post(
         level,
         user_first_name.concat(" ", user_last_name),
         trainerId,
-        img
+        imgUrl
       );
       const trainingDbId = await queries.getTrainingByProperties(
         title,
