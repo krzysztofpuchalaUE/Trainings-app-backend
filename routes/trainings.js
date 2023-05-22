@@ -3,24 +3,8 @@ import express from "express";
 import { authenticateToken } from "../utils/authToken.js";
 import * as validation from "../validation/validation.js";
 import multer from "multer";
-import path from "path";
 
 export const router = express.Router();
-
-const imgconfig = multer.diskStorage({
-  destination: function (req, file, cb) {
-    fs.mkdir("./uploads/", (err) => {
-      cb(null, "./uploads/");
-    });
-  },
-  filename: (req, file, callback) => {
-    callback(null, `image-${Date.now()}.${file.originalname}`);
-  },
-});
-
-const upload = multer({
-  storage: imgconfig,
-});
 
 router
   .route("/trainings")
