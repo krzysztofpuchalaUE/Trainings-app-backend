@@ -94,7 +94,7 @@ router.post(
     const email = req.email.email;
     const trainerData = await queries.getUserByEmail(email);
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
-    const img = req.file ? req.file.filename : null;
+    const img = req.file ? req.file : null;
 
     const storageRef = ref(
       storage,
@@ -198,7 +198,24 @@ router
     const email = req.email.email;
     const trainerData = await queries.getUserByEmail(email);
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
-    const img = req.file ? req.file.filename : null;
+    const img = req.file ? req.file : null;
+
+    const storageRef = ref(
+      storage,
+      `images/${req.file.originalname + "    " + Date.now()}`
+    );
+
+    const metadata = {
+      contentType: img.mimetype,
+    };
+
+    const snapshot = await uploadBytesResumable(
+      storageRef,
+      img.buffer,
+      metadata
+    );
+
+    const imgUrl = await getDownloadURL(snapshot.ref);
 
     const {
       title,
@@ -266,7 +283,7 @@ router
         location,
         user_first_name.concat(" ", user_last_name),
         trainerId,
-        img
+        imgUrl
       );
       res.json({ message: "Successfully updated training" });
     } catch {
