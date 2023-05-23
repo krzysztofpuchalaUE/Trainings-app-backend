@@ -96,22 +96,26 @@ router.post(
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
     const img = req.file ? req.file : null;
 
-    const storageRef = ref(
-      storage,
-      `images/${req.file.originalname + "    " + Date.now()}`
-    );
+    let imgUrl;
 
-    const metadata = {
-      contentType: img.mimetype,
-    };
+    if (req.file !== undefined) {
+      const storageRef = ref(
+        storage,
+        `images/${req.file.originalname + "    " + Date.now()}`
+      );
 
-    const snapshot = await uploadBytesResumable(
-      storageRef,
-      img.buffer,
-      metadata
-    );
+      const metadata = {
+        contentType: img.mimetype,
+      };
 
-    const imgUrl = await getDownloadURL(snapshot.ref);
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        img.buffer,
+        metadata
+      );
+
+      imgUrl = await getDownloadURL(snapshot.ref);
+    }
 
     let errors = {};
 
@@ -200,22 +204,26 @@ router
     const { user_first_name, user_last_name, id: trainerId } = trainerData[0];
     const img = req.file ? req.file : null;
 
-    const storageRef = ref(
-      storage,
-      `images/${req.file.originalname + "    " + Date.now()}`
-    );
+    let imgUrl;
 
-    const metadata = {
-      contentType: img.mimetype,
-    };
+    if (req.file !== undefined) {
+      const storageRef = ref(
+        storage,
+        `images/${req.file.originalname + "    " + Date.now()}`
+      );
 
-    const snapshot = await uploadBytesResumable(
-      storageRef,
-      img.buffer,
-      metadata
-    );
+      const metadata = {
+        contentType: img.mimetype,
+      };
 
-    const imgUrl = await getDownloadURL(snapshot.ref);
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        img.buffer,
+        metadata
+      );
+
+      imgUrl = await getDownloadURL(snapshot.ref);
+    }
 
     const {
       title,
