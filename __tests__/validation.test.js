@@ -1,4 +1,4 @@
-import * as validation from "./validation.js";
+import * as validation from "../validation/validation.js";
 const title = "Machne learining";
 const category = "data science";
 const startDate = "2023-06-01";
