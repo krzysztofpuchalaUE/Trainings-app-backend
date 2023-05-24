@@ -19,7 +19,7 @@ export const isEndDateValid = (endDate, startDate) => {
   if (startDate.length === 0) {
     return Date.parse(endDate) > Date.now();
   }
-  if (startDate.length > 0) return Date.parse(endDate) > Date.now() + 1;
+  if (startDate.length > 0) return Date.parse(endDate) > Date.parse(startDate);
 };
 
 export const isStartTimeValid = (startTime) => {
